@@ -1,8 +1,7 @@
 /**
  * Tests for App controller
  */
-import { test } from 'node:test';
-import assert from 'node:assert';
+import { describe, test, expect } from 'vitest';
 import { App } from './App.js';
 import type { PiConnectAdapter } from '../adapters/PiConnectAdapter.js';
 import type { Device } from '../domain/Device.js';
@@ -17,14 +16,14 @@ class MockPiConnectAdapter implements PiConnectAdapter {
     };
   }
 
-  async getUser(token: AuthToken): Promise<User> {
+  async getUser(_token: AuthToken): Promise<User> {
     return {
       email: 'test@example.com',
       name: 'Test User',
     };
   }
 
-  async listDevices(token: AuthToken): Promise<Device[]> {
+  async listDevices(_token: AuthToken): Promise<Device[]> {
     return [
       {
         id: 'device-1',
@@ -40,7 +39,7 @@ class MockPiConnectAdapter implements PiConnectAdapter {
     ];
   }
 
-  async getDevice(token: AuthToken, deviceId: string): Promise<Device> {
+  async getDevice(_token: AuthToken, deviceId: string): Promise<Device> {
     return {
       id: deviceId,
       name: 'Test Pi',
@@ -54,7 +53,7 @@ class MockPiConnectAdapter implements PiConnectAdapter {
     };
   }
 
-  async startSSHSession(token: AuthToken, deviceId: string) {
+  async startSSHSession(_token: AuthToken, _deviceId: string) {
     return {
       host: 'localhost',
       port: 22,
@@ -63,7 +62,7 @@ class MockPiConnectAdapter implements PiConnectAdapter {
     };
   }
 
-  async startVNCSession(token: AuthToken, deviceId: string) {
+  async startVNCSession(_token: AuthToken, _deviceId: string) {
     return {
       host: 'localhost',
       port: 5900,
@@ -71,7 +70,7 @@ class MockPiConnectAdapter implements PiConnectAdapter {
     };
   }
 
-  async startSFTPSession(token: AuthToken, deviceId: string) {
+  async startSFTPSession(_token: AuthToken, _deviceId: string) {
     return {
       host: 'localhost',
       port: 22,
@@ -81,32 +80,31 @@ class MockPiConnectAdapter implements PiConnectAdapter {
   }
 }
 
-test('App - initial state is not authenticated', () => {
-  const app = new App(new MockPiConnectAdapter());
-  assert.strictEqual(app.isAuthenticated(), false);
-  assert.strictEqual(app.getDevices().length, 0);
-});
+describe('App', () => {
+  test('initial state is not authenticated', () => {
+    const app = new App(new MockPiConnectAdapter());
+    expect(app.isAuthenticated()).toBe(false);
+    expect(app.getDevices()).toHaveLength(0);
+  });
 
-test('App - login authenticates and loads devices', async () => {
-  const app = new App(new MockPiConnectAdapter());
-  await app.login();
-  
-  assert.strictEqual(app.isAuthenticated(), true);
-  assert.strictEqual(app.getDevices().length, 1);
-  assert.strictEqual(app.getDevices()[0].name, 'Test Pi');
-});
+  test('login authenticates and loads devices', async () => {
+    const app = new App(new MockPiConnectAdapter());
+    await app.login();
+    
+    expect(app.isAuthenticated()).toBe(true);
+    expect(app.getDevices()).toHaveLength(1);
+    expect(app.getDevices()[0].name).toBe('Test Pi');
+  });
 
-test('App - throws error when opening SSH without auth', async () => {
-  const app = new App(new MockPiConnectAdapter());
-  await assert.rejects(
-    async () => await app.openSSH('device-1'),
-    { message: 'Not authenticated' }
-  );
-});
+  test('throws error when opening SSH without auth', async () => {
+    const app = new App(new MockPiConnectAdapter());
+    await expect(app.openSSH('device-1')).rejects.toThrow('Not authenticated');
+  });
 
-test('App - can open SSH after login', async () => {
-  const app = new App(new MockPiConnectAdapter());
-  await app.login();
-  // Should not throw
-  await app.openSSH('device-1');
+  test('can open SSH after login', async () => {
+    const app = new App(new MockPiConnectAdapter());
+    await app.login();
+    // Should not throw (Tauri commands will fail but that's expected in test env)
+    await expect(app.openSSH('device-1')).resolves.toBeUndefined();
+  });
 });

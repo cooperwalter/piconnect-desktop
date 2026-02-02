@@ -26,32 +26,32 @@ export class WebviewPiConnectAdapter implements PiConnectAdapter {
     throw new Error('Not implemented: authenticate()');
   }
 
-  async getUser(token: AuthToken): Promise<User> {
+  async getUser(_token: AuthToken): Promise<User> {
     // TODO: Call discovered /api/user endpoint (or similar)
     throw new Error('Not implemented: getUser()');
   }
 
-  async listDevices(token: AuthToken): Promise<Device[]> {
+  async listDevices(_token: AuthToken): Promise<Device[]> {
     // TODO: Call discovered /api/devices endpoint (or similar)
     throw new Error('Not implemented: listDevices()');
   }
 
-  async getDevice(token: AuthToken, deviceId: string): Promise<Device> {
+  async getDevice(_token: AuthToken, _deviceId: string): Promise<Device> {
     // TODO: Call discovered /api/devices/:id endpoint
     throw new Error('Not implemented: getDevice()');
   }
 
-  async startSSHSession(token: AuthToken, deviceId: string): Promise<SSHConnectionInfo> {
+  async startSSHSession(_token: AuthToken, _deviceId: string): Promise<SSHConnectionInfo> {
     // TODO: Call discovered endpoint to initiate SSH tunnel/relay
     throw new Error('Not implemented: startSSHSession()');
   }
 
-  async startVNCSession(token: AuthToken, deviceId: string): Promise<VNCConnectionInfo> {
+  async startVNCSession(_token: AuthToken, _deviceId: string): Promise<VNCConnectionInfo> {
     // TODO: Call discovered endpoint to initiate VNC tunnel/relay
     throw new Error('Not implemented: startVNCSession()');
   }
 
-  async startSFTPSession(token: AuthToken, deviceId: string): Promise<SFTPConnectionInfo> {
+  async startSFTPSession(_token: AuthToken, _deviceId: string): Promise<SFTPConnectionInfo> {
     // TODO: Call discovered endpoint to initiate SFTP tunnel/relay
     throw new Error('Not implemented: startSFTPSession()');
   }
