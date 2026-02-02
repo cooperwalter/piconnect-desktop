@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/src/assets/tauri.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PiConnect Desktop</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Login Screen -->
+      <div id="login-screen" class="screen">
+        <div class="login-container">
+          <h1>PiConnect Desktop</h1>
+          <p>Connect to your Raspberry Pi devices via Raspberry Pi Connect</p>
+          <button id="login-btn" class="primary-btn">Login with Pi Connect</button>
+        </div>
+      </div>
+
+      <!-- Devices Screen -->
+      <div id="devices-screen" class="screen">
+        <header>
+          <h1>My Devices</h1>
+          <button id="refresh-btn" class="secondary-btn">Refresh</button>
+        </header>
+        <div id="devices-list" class="devices-container"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
