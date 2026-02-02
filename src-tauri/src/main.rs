@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    piconnect_temp_lib::run()
+    piconnect_desktop_lib::run()
 }
