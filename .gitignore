@@ -1,0 +1,11 @@
+# Node
+node_modules/
+
+# Rust
+/target/
+
+# Tauri
+/src-tauri/target/
+
+# OS
+.DS_Store
