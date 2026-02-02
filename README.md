@@ -1,18 +1,7 @@
-# PiConnect Desktop
+# Tauri + Vanilla TS
 
-Cross-platform desktop client for Raspberry Pi Connect.
+This template should help get you started developing with Tauri in vanilla HTML, CSS and Typescript.
 
-## Goals (MVP)
-- Sign in to Raspberry Pi Connect (https://connect.raspberrypi.com)
-- List devices
-- Actions per device:
-  - Open SSH session (system terminal)
-  - Open screen sharing / VNC
-  - File transfer (SFTP)
+## Recommended IDE Setup
 
-## Tech
-- Planned: **Tauri** (Rust backend + web UI) for macOS/Linux/Windows.
-
-## Dev notes
-To build Tauri on Linux we’ll need Rust + system libraries (WebKitGTK/GTK).
-This repo will include setup instructions once scaffolded.
+- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
