@@ -46,8 +46,15 @@ export class App {
       throw new Error('Not authenticated');
     }
     const info = await this.adapter.startSSHSession(this.authState.token, deviceId);
-    // TODO: Launch system terminal with SSH connection
-    console.log('SSH connection info:', info);
+    
+    // Try to open via Tauri command (will fail in browser/dev mode)
+    try {
+      const { openSSHTerminal } = await import('../tauri/commands.js');
+      await openSSHTerminal(info);
+    } catch (error) {
+      console.log('SSH connection info:', info);
+      console.warn('Tauri SSH not available:', error);
+    }
   }
 
   async openVNC(deviceId: string): Promise<void> {
@@ -55,8 +62,14 @@ export class App {
       throw new Error('Not authenticated');
     }
     const info = await this.adapter.startVNCSession(this.authState.token, deviceId);
-    // TODO: Launch VNC client
-    console.log('VNC connection info:', info);
+    
+    try {
+      const { openVNCClient } = await import('../tauri/commands.js');
+      await openVNCClient(info);
+    } catch (error) {
+      console.log('VNC connection info:', info);
+      console.warn('Tauri VNC not available:', error);
+    }
   }
 
   async openSFTP(deviceId: string): Promise<void> {
@@ -64,7 +77,13 @@ export class App {
       throw new Error('Not authenticated');
     }
     const info = await this.adapter.startSFTPSession(this.authState.token, deviceId);
-    // TODO: Launch SFTP client / file browser
-    console.log('SFTP connection info:', info);
+    
+    try {
+      const { openSFTPClient } = await import('../tauri/commands.js');
+      await openSFTPClient(info);
+    } catch (error) {
+      console.log('SFTP connection info:', info);
+      console.warn('Tauri SFTP not available:', error);
+    }
   }
 }

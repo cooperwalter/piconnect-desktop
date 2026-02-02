@@ -48,6 +48,8 @@ Authorization: Bearer <token>
 ```
 
 ## Discovery Process
+
+### Method 1: Manual Network Tab Inspection
 1. Open https://connect.raspberrypi.com in browser
 2. Open DevTools Network tab
 3. Log in and interact with the UI
@@ -55,6 +57,39 @@ Authorization: Bearer <token>
 5. Document endpoints, headers, request/response formats
 6. Test discovered endpoints with curl/Postman
 7. Implement in WebviewPiConnectAdapter
+
+### Method 2: Automated Discovery Tool (Recommended)
+We've built an API discovery helper that intercepts fetch calls:
+
+1. Open https://connect.raspberrypi.com in browser
+2. Open DevTools console
+3. Build the project in dev mode:
+   ```bash
+   npm run dev
+   ```
+4. In the console, paste:
+   ```javascript
+   // Load and start the discovery tool
+   await import('http://localhost:5173/src/adapters/piconnect/ApiDiscovery.ts')
+     .then(m => m.startApiDiscovery());
+   ```
+5. Interact with Pi Connect (login, list devices, connect, etc.)
+6. All API calls will be logged automatically
+7. View summary:
+   ```javascript
+   getDiscoveredEndpoints()
+   ```
+8. Export to file:
+   ```javascript
+   exportDiscovery()
+   ```
+
+The discovery tool captures:
+- Request method, URL, headers, body
+- Response status, headers, body
+- Timestamp for each call
+
+This makes it easy to document all endpoints and implement the adapter.
 
 ## Notes
 - The web interface may use WebSocket for real-time updates
